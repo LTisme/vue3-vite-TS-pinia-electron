@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type="module">
+    // 导入模块
+    // 这里特别注意！！！！！！！！
+    // ①需要在本机安装typescript模块，这样才能运行tsc命令将ts文件编译成js文件，只有被编译成js文件才能在浏览器中运行
+    // ②需要在tsconfig.json文件中配置"target": "es6"和"module": "es2015"才能被正确编译
+    // 然后才是导入后，使用本地live server运行index.html文件，就可以看到效果了
+    import {MyReactive} from "./MyReactive.js"
+    import {MyEffect} from "./MyEffect.js"
+
+    const user = MyReactive({
+        name: "John",
+        age: 25,
+        // 
+        foo:{
+            bar:{
+                sss: 2333
+            }
+        }
+    })
+
+    MyEffect(() => {
+        document.querySelector("#app").innerText = `${user.name}-${user.age}-${user.foo.bar.sss}`
+    })
+
+    // 使用延迟来测试有无生效
+    setTimeout(() => {
+        user.name = "Mike"
+        setTimeout(() => {
+            user.age = 30
+            setTimeout(() => {
+                user.foo.bar.sss = 4444
+            }, 1000)
+        }, 1000)
+    }, 2000)
+</script>
+</html>
