@@ -17,4 +17,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // 在这导入你希望全局vue组件都用的sass样式
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/bem.scss";`
+      }
+    }
+  }
 })
