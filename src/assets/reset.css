@@ -1,0 +1,9 @@
+/* 初始化网页的基本样式 */
+* {
+    padding: 0;
+    margin: 0;
+}
+html, body {
+    height: 100%;
+    overflow: hidden;
+}

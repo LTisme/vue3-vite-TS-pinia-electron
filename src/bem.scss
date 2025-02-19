@@ -3,6 +3,11 @@ $block-sel: "-" !default;            // 块选择器的前缀，也就是b
 $element-sel: "__" !default;         // 元素选择器的前缀，也就是e
 $modifier-sel: "--" !default;        // 修饰符选择器的前缀，也就是m
 
+// 块级的格式化的上下文
+@mixin bfc{
+    height: 100%;
+    overflow: hidden;
+}
 
 // block
 
