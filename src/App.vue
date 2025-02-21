@@ -1,173 +1,65 @@
 <template>
-  <waterFallVue :list="list"></waterFallVue>
+  <div>
+    <CardVue />
+    <TreeVue :data="treeData" />
+  </div>
 </template>
 
 <script setup lang='ts'>
-  import { ref, reactive } from 'vue'
-  import waterFallVue from '@/components/water-fall.vue';
-  // 下面是很多不同高度、不同颜色但有着同样宽度的div色块，这样就可以用这个list模拟出一个瀑布流的效果。
-  const list = [
-    {
-      height: 300,
-      background: 'red'
-    },
-    {
-      height: 400,
-      background: 'pink'
-    },
-    {
-      height: 500,
-      background: 'blue'
-    },
-    {
-      height: 200,
-      background: 'green'
-    },
-    {
-      height: 300,
-      background: 'gray'
-    },
-    {
-      height: 400,
-      background: '#CC00FF'
-    },
-    {
-      height: 200,
-      background: 'black'
-    },
-    {
-      height: 100,
-      background: '#996666'
-    },
-    {
-      height: 500,
-      background: 'skyblue'
-    },
-    {
-      height: 300,
-      background: '#993366'
-    },
-    {
-      height: 100,
-      background: '#33FF33'
-    },
-    {
-      height: 400,
-      background: 'skyblue'
-    },
-    {
-      height: 200,
-      background: '#6633CC'
-    },
-    {
-      height: 300,
-      background: '#666699'
-    },
-    {
-      height: 300,
-      background: '#66CCFF'
-    },
-    {
-      height: 300,
-      background: 'skyblue'
-    },
-    {
-      height: 200,
-      background: '#CC3366'
-    },
-    {
-      height: 200,
-      background: '#CC9966'
-    },
-    {
-      height: 200,
-      background: '#FF00FF'
-    },
-    {
-      height: 500,
-      background: '#990000'
-    },
-    {
-      height: 400,
-      background: 'red'
-    },
-    {
-      height: 100,
-      background: '#999966'
-    },
-    {
-      height: 200,
-      background: '#CCCC66'
-    },
-    {
-      height: 300,
-      background: '#FF33FF'
-    },
-    {
-      height: 400,
-      background: '#FFFF66'
-    },
-    {
-      height: 200,
-      background: 'red'
-    },
-    {
-      height: 100,
-      background: 'skyblue'
-    },
-    {
-      height: 200,
-      background: '#33CC00'
-    },
-    {
-      height: 300,
-      background: '#330033'
-    },
-    {
-      height: 100,
-      background: '#0066CC'
-    },
-    {
-      height: 200,
-      background: 'skyblue'
-    },
-    {
-      height: 100,
-      background: '#006666'
-    },
-    {
-      height: 200,
-      background: 'yellow'
-    },
-    {
-      height: 300,
-      background: 'yellow'
-    },
-    {
-      height: 100,
-      background: '#33CCFF'
-    },
-    {
-      height: 400,
-      background: 'yellow'
-    },
-    {
-      height: 400,
-      background: 'yellow'
-    },
-    {
-      height: 200,
-      background: '#33FF00'
-    },
-    {
-      height: 300,
-      background: 'yellow'
-    },
-    {
-      height: 100,
-      background: 'green'
-    }
+  // 这样就注册成了局部组件，如果想要将此组件注册为全局组件，则需要在main.ts中导入并注册
+  // import CardVue from '@/components/components-study/Card.vue';
+  import TreeVue from '@/components/components-study/Tree.vue';     // 展示递归组件
 
+  // 造一点数据
+  interface Tree {
+    name: string;
+    checked: boolean;
+    children?: Tree[];
+  }
+
+  const treeData: Tree[] = [
+    {
+      name: '一级 1',
+      checked: false,
+      children: [
+        {
+          name: '一级 1 - 二级 1',
+          checked: false,
+        },
+        {
+          name: '一级 1 - 二级 2',
+          checked: false,
+        },
+      ],
+    },
+    {
+      name: '一级 2',
+      checked: false,
+      children: [
+        {
+          name: '一级 2 - 二级 1',
+          checked: false,
+        },
+        {
+          name: '一级 2 - 二级 2',
+          checked: false,
+          children: [
+            {
+              name: '一级 2 - 二级 2 - 三级 1',
+              checked: false,
+            },
+            {
+              name: '一级 2 - 二级 2 - 三级 2',
+              checked: false,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: '一级 3',
+      checked: false,
+    }
   ]
 </script>
 
