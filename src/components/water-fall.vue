@@ -1,73 +1,65 @@
 <template>
-
-    <div>子集</div>
-    <div>字符串值:{{ fromParentVal }}</div>
-    <div>数组值:{{ fromParentArr }}</div>
-    <div>
-        <button @click="sendToParent">给父组件传值</button>
+    <div class="wraps">
+        <div class="items"
+            :style="{ height: item.height + 'px', top: item.top + 'px', left: item.left + 'px', background: item.background }"
+            v-for="item in processedList"></div>
     </div>
-
 </template>
 
 <script setup lang='ts'>
-
-    /************************************/
-    /*     子组件接收父组件的传值     */
-    /************************************/
-    // 1、不使用TS语言就可以做到的接收父组件传过来的值
-    // 子组件在接收的时候用defineProps来接收
-    // 接收一个名为传过来的变量的对象
-    // const prop = defineProps({
-    //     messenger: {
-    //         type: String,
-    //         default: '987654321'     // 默认值缺省值
-    //     }
-    // })
-    // // 不能直接用messenger，需要用一个参数接收defineProps，才可以使用
-    // console.log(prop.messenger); // 打印接收到的变量的值
-
-    // 2、ts的写法，直接写泛型就好
-    // defineProps<{
-    //     fromParentVal: string,
-    //     fromParentArr: number[]
-    // }>()
-    // 2.1、ts特有的定义默认值，但只能接收defineProps
-    withDefaults(defineProps<{
-        fromParentVal: string,
-        fromParentArr: number[]
-    }>(), {
-        fromParentArr: () => [0, 0, 0, 0, 0, 0],
-        fromParentVal: () => '123456789'
-    })
-
-    /************************************/
-    /*     子组件给父组件传值     */
-    /************************************/
-    // 1、给父组件传值使用defineEmits的第1种方法
-    // const emit = defineEmits(['valToParent'])
-    // 2、给父组件传值使用defineEmits的第2种方法，就是直接写在泛型里
-    const emit = defineEmits<{
-        (e: 'valToParent', val: string): void
-        // (e: 'valToParent', val: string): void
-        // (e: 'valToParent', val: string): void
+    import { ref, reactive, onMounted } from 'vue'
+    // 1、首先接收一下父组件传过来的色块数组
+    const listFromParent = defineProps<{
+        list: any[]
     }>()
-
-    const sendToParent = () => {
-        // 给父组件传值
-        emit('valToParent', '我是子组件传给父组件的值')
-    }
-
-    /************************************/
-    /*     子组件给父组件暴露方法或属性等     */
-    /************************************/
-    // 1、暴露方法给父组件，但父组件需要用ref来调用实例才能收到
-    defineExpose({
-        exposedName: "宇树机器人",
-        exposedMethod: () => {
-            console.log("我是子组件主动暴露给父组件的方法")
+    const processedList = reactive<any[]>([])
+    const heightList: number[] = []                              // 色块的高度数组，用来计算布局
+    // 2、涉及到dom操作，引入生命周期
+    function init() {
+        const width = 130                                        // 色块的宽度比样式的宽度稍微大一点，以便留出间隙
+        const visibleWidth = document.body.clientWidth           // 获取可视区里的宽度，就是随着拖大拖小会变化的
+        const columns = Math.floor(visibleWidth / width)         // 计算可视区能容纳多少列
+        console.log(`visibleWidth:${visibleWidth}, columns:${columns}`)
+        // 有了列数，就可以开始布局了
+        // 遍历父组件传过来的数组，创建多个div元素，并设置样式
+        let rowIndicator = 0
+        for (let i = 0; i < listFromParent.list.length; i++) {
+            // 先写第一行的色块
+            if (i < columns) {
+                listFromParent.list[i].left = i * width
+                listFromParent.list[i].top = 20
+                processedList.push(listFromParent.list[i])
+                heightList.push(listFromParent.list[i].height + 20)
+                console.log(`这是第${Math.ceil(i / columns) + 1}行`)
+            } else {
+                // 后面的色块，要根据前面已有的色块的高度来排列
+                let minHeight = Math.min(...heightList)
+                let minIndex = heightList.indexOf(minHeight)
+                console.log(`这是第${Math.ceil(i / columns) + 1}行,minHeight:${minHeight}, minIndex:${minIndex}`)
+                listFromParent.list[i].left = minIndex * width
+                listFromParent.list[i].top = minHeight + 20
+                processedList.push(listFromParent.list[i])
+                heightList[minIndex] += listFromParent.list[i].height + 20
+            }
         }
-    })
 
+    }
+    onMounted(() => {
+        init()
+    })
 </script>
 
-<style scoped></style>
+<style scoped>
+    .wraps {
+        /* 父级则采用relative定位 */
+        position: relative;
+        /* height: 100%; */
+
+        .items {
+            /* 每个item元素都是通过具体的值定位来实现的排列的，所以position设置为absolute */
+            position: absolute;
+            /* 宽度都固定 */
+            width: 120px;
+        }
+    }
+</style>
