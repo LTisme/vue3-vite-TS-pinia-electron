@@ -1,66 +1,44 @@
 <template>
-  <div>
-    <CardVue />
-    <TreeVue :data="treeData" />
+  <div style="display: flex;">
+    <!-- class属性可以有2个，但必须是一个静态一个动态，不能两个静态或者两个动态，否则会报错 -->
+    <div @click="switchComponent(item, index)" :class="[activeIndex == index ? 'active' : '']" class="tab"
+      v-for="(item, index) in data">
+      <div>{{ item.name }}</div>
+    </div>
   </div>
+  <component :is="dynamicComponent"></component>
 </template>
 
 <script setup lang='ts'>
-  // 这样就注册成了局部组件，如果想要将此组件注册为全局组件，则需要在main.ts中导入并注册
-  // import CardVue from '@/components/components-study/Card.vue';
-  import TreeVue from '@/components/components-study/Tree.vue';     // 展示递归组件
+  import { ref, reactive, shallowRef, markRaw } from 'vue'
+  import AVue from './components/components-study/A.vue'
+  import BVue from './components/components-study/B.vue'
+  import CVue from './components/components-study/C.vue'
 
-  // 造一点数据
-  interface Tree {
-    name: string;
-    checked: boolean;
-    children?: Tree[];
+  const activeIndex = ref(0)
+
+  const switchComponent = (item: any, index: any) => {
+    dynamicComponent.value = item.com
+    activeIndex.value = index
   }
 
-  const treeData: Tree[] = [
+  // 因为ref的话会对组件很多不必要的信息做一个劫持，所以要跳过它
+  // 所以这里使用shallowRef和markRaw就是为了减少性能开销
+  const dynamicComponent = shallowRef(AVue)
+  const data = reactive([
     {
-      name: '一级 1',
-      checked: false,
-      children: [
-        {
-          name: '一级 1 - 二级 1',
-          checked: false,
-        },
-        {
-          name: '一级 1 - 二级 2',
-          checked: false,
-        },
-      ],
+      name: 'A组件',
+      com: markRaw(AVue)
     },
     {
-      name: '一级 2',
-      checked: false,
-      children: [
-        {
-          name: '一级 2 - 二级 1',
-          checked: false,
-        },
-        {
-          name: '一级 2 - 二级 2',
-          checked: false,
-          children: [
-            {
-              name: '一级 2 - 二级 2 - 三级 1',
-              checked: false,
-            },
-            {
-              name: '一级 2 - 二级 2 - 三级 2',
-              checked: false,
-            },
-          ],
-        },
-      ],
+      name: 'B组件',
+      com: markRaw(BVue)
     },
     {
-      name: '一级 3',
-      checked: false,
+      name: 'C组件',
+      com: markRaw(CVue)
     }
-  ]
+  ])
 </script>
 
 <style lang='scss'>
@@ -71,12 +49,23 @@
     padding: 0;
     margin: 0;
     top: 0;
-    height: 100%;
+    // height: 100%;
     width: 100%;
   }
 
   * {
     padding: 0;
     margin: 0;
+  }
+
+  .active {
+    background: skyblue;
+  }
+
+  .tab {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
   }
 </style>
