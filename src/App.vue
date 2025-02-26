@@ -1,28 +1,34 @@
 <template>
-  <div class="content">
-    <DialogVue>
-      <!-- 还有动态插槽的写法，当然也可以用简写的形式 -->
-      <template v-slot:[dynamicalSlot]>
-        <div>我被父组件插入了下间</div>
-      </template>
-      <!-- 简写的话是#default="{ customedVarFromChildSlot }" -->
-      <template v-slot="{ customedVarFromChildSlot }"><!-- 解构出来 -->
-        <div>我被父组件插入了中间</div>
-        <div>{{ customedVarFromChildSlot }}</div>
-      </template>
-      <!-- v-slot是可以简写的，这里相当于v-slot:header -->
-      <template #header>
-        <div>我被父组件插入了上面</div>
-      </template>
-    </DialogVue>
-  </div>
+  <!-- 注意！！！！！！！！！！！！！！ -->
+  <!-- 必须！使用！Suspense！！！来展示异步组件 -->
+  <Suspense>
+    <!-- Suspense有两个插槽，第一个插槽是默认插槽，第二个插槽是错误插槽，用来展示异步组件加载失败的情况 -->
+    <!-- 第二个是匿名插槽，它当然也有具名，只不过具名限定为了default罢了，可以写也可以不写他 -->
+    <!-- <template #default> -->
+    <SyncVue></SyncVue>
+    <!-- </template> -->
+    <!-- 第二个是具名插槽叫fallback，可以在加载期间做些什么，比如把骨架屏放进去 -->
+    <template #fallback>
+      <SkeletonVue></SkeletonVue>
+    </template>
+  </Suspense>
+  <!-- <SkeletonVue /> -->
 </template>
 
 <script setup lang='ts'>
-  import { ref } from 'vue'
-  import DialogVue from './components/Dialog-slot-study/index.vue'
+  // 一定要使用这个defineAsyncComponent来引入异步组件
+  // 异步组件有什么好处呢？可以AI一下帮助你一下子理解，主要核心是不要一下子把组件都加载进来造成大量等待时间
+  import { defineAsyncComponent } from 'vue';
+  import SkeletonVue from '@/components/sync-suspense-study/skeleton.vue';
 
-  const dynamicalSlot = ref('footer')
+  // defineAsyncComponent有两种风格的书写方式，下面两种写法是等价的，但一般都用第一种
+  // const SyncVue = defineAsyncComponent(() => import('@/components/sync-suspense-study/sync.vue'))
+  const SyncVue = defineAsyncComponent({
+    loader: () => import('@/components/sync-suspense-study/sync.vue'),
+    loadingComponent: SkeletonVue,
+    errorComponent: { template: '<div>加载失败了</div>' },
+    timeout: 3000, // 超时时间，默认3000ms
+  })
 
 </script>
 
