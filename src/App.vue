@@ -1,44 +1,23 @@
 <template>
-  <div class="parent">
-    <h1>嗨嗨嗨，我是父级</h1>
-    <Teleport :disabled="flag" to="body">
-      <TeleportVue />
-    </Teleport>
-  </div>
+    <el-button type="primary" @click="switchFlag = !switchFlag">切换组件</el-button>
+    <!-- include是想缓存组件的名称，是vue文件的文件名哈，不是import进来的组件名称 -->
+    <!-- exclude是不想缓存组件的名称 -->
+    <!-- 其实还有max属性，表示缓存的最大数量，采用了lru算法 -->
+    <!-- 然后使用了keep-alive的话，会添加2个生命周期onActivated和onDeactivated -->
+    <!-- keep-alive组件的子组件必须是单文件组件，下面两个如果不用if-else的话会报错 -->
+    <!-- <Avue /> -->
+    <!-- <Bvue /> -->
+    <keep-alive :include="['B', 'A']">
+        <Avue v-if="switchFlag" />
+        <Bvue v-else />
+    </keep-alive>
 </template>
 
-<script setup lang='ts'>
-  import { ref, reactive } from 'vue'
-  import TeleportVue from '@/components/Teleport传送组件-study/index.vue'
-
-  const flag = ref(false)
-  // flag.value = true // 关闭传送功能
+<script setup lang="ts">
+    import { ref } from 'vue'
+    import Avue from '@/components/study_keep-alive组件/A.vue'
+    import Bvue from '@/components/study_keep-alive组件/B.vue'
+    const switchFlag = ref(true)
 </script>
 
-<style lang='scss'>
-
-  // #app,
-  // html,
-  // body {
-  //   padding: 0;
-  //   margin: 0;
-  //   top: 0;
-  //   // height: 100%;
-  //   width: 100%;
-  // }
-
-  #app,
-  * {
-    padding: 0;
-    margin: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .parent {
-    background: yellow;
-    height: 50vh;
-    position: relative; // 会影响子组件的定位
-  }
-</style>
+<style scoped></style>
