@@ -2,7 +2,9 @@
     <div class="content">
         <button @click="switchFlag = !switchFlag" type="button">切换</button>
         <Transition enter-active-class="animate__animated animate__rubberBand"
-            leave-active-class="animate__animated animate__jello">
+            leave-active-class="animate__animated animate__jello" @before-enter="EnterFrom" @enter="enter"
+            @after-enter="EnterTo" @enter-cancelled="enterCancelled" @before-leave="beforeLeave" @leave="leave"
+            @after-leave="afterLeave" @leave-cancelled="leaveCancelled">
             <div v-if="switchFlag" class="box"></div>
         </Transition>
     </div>
@@ -13,6 +15,37 @@
 
     import { ref } from 'vue'
     const switchFlag = ref(true)
+    // transition 组件的生命周期
+    function EnterFrom(el: Element) {
+        console.log('进入之前，el是获取到的元素', el)
+    }
+    function enter(el: Element, done: Function) {
+        console.log('过渡曲线', el)
+        setTimeout(() => {
+            done()
+        }, 3000)
+    }
+    function EnterTo(el: Element) {
+        console.log('进入之后', el)
+    }
+    function enterCancelled(el: Element) {
+        console.log('过渡效果被打断', el)
+    }
+    function beforeLeave(el: Element) {
+        console.log('离开之前', el)
+    }
+    function leave(el: Element, done: Function) {
+        console.log('离开中', el)
+        setTimeout(() => {
+            done()
+        }, 3000)
+    }
+    function afterLeave(el: Element) {
+        console.log('离开之后', el)
+    }
+    function leaveCancelled(el: Element) {
+        console.log('离开效果被打断', el)
+    }
 </script>
 
 <style scoped>
