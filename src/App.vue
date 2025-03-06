@@ -1,10 +1,7 @@
 <template>
     <div class="content">
         <button @click="switchFlag = !switchFlag" type="button">切换</button>
-        <Transition enter-active-class="animate__animated animate__rubberBand"
-            leave-active-class="animate__animated animate__jello" @before-enter="EnterFrom" @enter="enter"
-            @after-enter="EnterTo" @enter-cancelled="enterCancelled" @before-leave="beforeLeave" @leave="leave"
-            @after-leave="afterLeave" @leave-cancelled="leaveCancelled">
+        <Transition @before-enter="EnterFrom" @enter="enter" @leave="leave">
             <div v-if="switchFlag" class="box"></div>
         </Transition>
     </div>
@@ -12,39 +9,33 @@
 
 <script setup lang="ts">
     import "animate.css"
+    import gsap from "gsap"
 
     import { ref } from 'vue'
     const switchFlag = ref(true)
     // transition 组件的生命周期
     function EnterFrom(el: Element) {
         console.log('进入之前，el是获取到的元素', el)
+        gsap.set(el, {
+            width: 0,
+            height: 0,
+        })
     }
-    function enter(el: Element, done: Function) {
+    function enter(el: Element, done: gsap.Callback) {
         console.log('过渡曲线', el)
-        setTimeout(() => {
-            done()
-        }, 3000)
+        gsap.to(el, {
+            width: 200,
+            height: 200,
+            onComplete: done,
+        })
     }
-    function EnterTo(el: Element) {
-        console.log('进入之后', el)
-    }
-    function enterCancelled(el: Element) {
-        console.log('过渡效果被打断', el)
-    }
-    function beforeLeave(el: Element) {
-        console.log('离开之前', el)
-    }
-    function leave(el: Element, done: Function) {
+    function leave(el: Element, done: gsap.Callback) {
         console.log('离开中', el)
-        setTimeout(() => {
-            done()
-        }, 3000)
-    }
-    function afterLeave(el: Element) {
-        console.log('离开之后', el)
-    }
-    function leaveCancelled(el: Element) {
-        console.log('离开效果被打断', el)
+        gsap.to(el, {
+            width: 0,
+            height: 0,
+            onComplete: done,
+        })
     }
 </script>
 
