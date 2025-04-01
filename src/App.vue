@@ -1,53 +1,52 @@
 <template>
-    <div class="content">
-        <button @click="addEvent">Add</button>
-        <button @click="popEvent">pop</button>
-        <div class="wraps">
-            <!-- tag的作用是帮你多包一层 -->
-            <!-- 然后其他的属性是和Transition组件一样的enter-xxx、leave-xxx、appear等属性 -->
-            <TransitionGroup enter-active-class="animate__animated animate__bounceInLeft"
-                leave-active-class="animate__animated animate__bounceOutRight" tag="section">
-                <!-- 使用TransitionGroup组件包裹多个元素，【【一定要给每一个元素添加key属性】】 -->
-                <div class="item" :key="item.num" v-for="item in boxList">{{ item }}</div>
-            </TransitionGroup>
-        </div>
+
+    <div>
+        <button @click="shuffleList">shuffle</button>
+        <TransitionGroup class="wraps" tag="div">
+            <div class="item" :key="item.id" v-for="item in list">
+                {{ item.number }}
+            </div>
+        </TransitionGroup>
     </div>
+    <div class="bem-test">goooood</div>
+
 </template>
 
-<script setup lang="ts">
-    import "animate.css"
-    import { ref, reactive } from 'vue'
-    const switchFlag = ref(true)
-    // 【【【【主题仍然是Transition组件，但如果需要平滑过渡多个元素则需要用TransitionGroup组件】】】
-    const boxList = reactive([
-        { num: 1, name: 'box1', show: true },
-        { num: 2, name: 'box2', show: false },
-        { num: 3, name: 'box3', show: false },
-        { num: 4, name: 'box4', show: false },
-    ])
-    function addEvent() {
-        boxList.push({ num: boxList.length + 1, name: 'box' + (boxList.length + 1), show: false })
-    }
-    function popEvent() {
-        boxList.pop()
-    }
+<script setup lang='ts'>
 
+    import { ref } from 'vue';
+    import _ from 'lodash';
+
+    let list = ref(Array.apply(null, { length: 81 } as number[]).map((_, index) => {
+        return {
+            id: index,
+            // 对9取余，得到1-9的循环数字
+            number: (index % 9) + 1
+        }
+    }))
+
+    function shuffleList() {
+        list.value = _.shuffle(list.value)
+    }
 </script>
 
-<style scoped>
+<style lang='scss'>
     .wraps {
-        /* 平铺 */
         display: flex;
-        /* 换行 */
         flex-wrap: wrap;
-        /* 内容换行 */
-        word-break: break-all;
-        /* 边框 */
-        border: 1px solid #ccc;
+        width: calc(25px * 9);
 
         .item {
-            /* 边距 */
-            margin: 10px;
+            width: 25px;
+            height: 25px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+    }
+
+    @include b(test) {
+        color: red;
     }
 </style>

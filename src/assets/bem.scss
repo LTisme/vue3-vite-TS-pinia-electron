@@ -1,0 +1,50 @@
+/*
+    bem 是一种样式命名架构，就是一种起名字规则，一版都有自己的命名空间比如:
+    <div class="el-input">
+        <div class="el-input__wrapper--modifier">
+        <div class="el-button--primary">
+    b 代表块 b-block
+    e 代表元素/内容 __element 
+    m 代表修饰符 --modifier
+*/
+/*
+    编写完后需要在vue.config.js中配置，才能在全局生效
+*/
+
+// 下面编写自定义的命名空间
+$namespace: "bem" !default;  // !default 代表如果没有别的赋值，则使用这个默认值
+$block-selector: "-" !default;
+$element-selector: "__" !default;
+$modifier-selector: "--" !default;
+
+// 编写自定义的样式，具体语法比如@include@mixin等，可以看Sass的中文官方文档
+// https://www.sass.hk/docs/
+// 混合指令的用法是在 @mixin 后添加名称与样式
+@mixin b($block){
+    // 通过 #{} 插值语句可以在选择器或属性名中使用变量：
+    $B: #{$namespace + $block-selector + $block};
+    .#{$B} {
+        // @content 向混合样式中导入内容，相当于一个占位符
+        @content;
+    }
+}
+@mixin e($element){
+    // 比如如果要对.bem-block__inner 进行样式修改，则首先要获取一下父级的类名：
+    // & 就代表父级选择器
+    $E: &;
+    // 如果不加 @at-root，则会变成.bem-block .bem-block__inner 也就是多了一个父级的类名，这是没必要的
+    // 所以用 @at-root 跳出嵌套
+    @at-root {
+        #{$E + $element-selector + $element}{
+            @content;
+        }
+    }
+}
+@mixin m($modifier){
+    $M: &;
+    @at-root {
+        #{$M + $modifier-selector + $modifier}{
+            @content;
+        }
+    }
+}
