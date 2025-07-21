@@ -32,7 +32,11 @@
     }
 </script>
 
+<<<<<<< HEAD
 <style lang='scss' scoped>
+=======
+<style lang='scss'>
+>>>>>>> 700352379e0c7d0fcd3e208246fd6ec8ad522965
     .wraps {
         display: flex;
         flex-wrap: wrap;

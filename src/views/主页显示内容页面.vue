@@ -17,9 +17,15 @@
 <script setup lang='ts'>
     const timeLineActivities = [
         {
+<<<<<<< HEAD
             routerTo: "/home",
             content: "vite工程自带的欢迎页面",
             timeStamp: "2025-02-11"
+=======
+            routerTo: "/shuffle",
+            content: "看洗牌",
+            timeStamp: "2025-04-01"
+>>>>>>> 700352379e0c7d0fcd3e208246fd6ec8ad522965
         },
         {
             routerTo: "/about",
@@ -27,6 +33,7 @@
             timeStamp: "2025-02-11"
         },
         {
+<<<<<<< HEAD
             routerTo: "/waterFall",
             content: "色块瀑布",
             timeStamp: "2025-02-21"
@@ -36,6 +43,12 @@
             content: "看洗牌",
             timeStamp: "2025-04-01"
         },
+=======
+            routerTo: "/home",
+            content: "vite工程自带的欢迎页面",
+            timeStamp: "2025-02-11"
+        }
+>>>>>>> 700352379e0c7d0fcd3e208246fd6ec8ad522965
     ]
 </script>
 

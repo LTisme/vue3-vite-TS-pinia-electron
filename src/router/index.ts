@@ -2,7 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import 主页 from '../views/主页显示内容页面.vue'
 import 洗牌 from '../views/使用loadsh进行洗牌.vue'
+<<<<<<< HEAD
 import 色块瀑布 from '../views/色块瀑布.vue'
+=======
+>>>>>>> 700352379e0c7d0fcd3e208246fd6ec8ad522965
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
