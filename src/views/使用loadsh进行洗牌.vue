@@ -32,7 +32,7 @@
     }
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
     .wraps {
         display: flex;
         flex-wrap: wrap;

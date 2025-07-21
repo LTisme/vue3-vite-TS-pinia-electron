@@ -26,11 +26,11 @@
             content: "很粗糙的about页面",
             timeStamp: "2025-02-11"
         },
-        // {
-        //     routerTo: "/waterFall",
-        //     content: "色块瀑布",
-        //     timeStamp: "2025-02-21"
-        // },
+        {
+            routerTo: "/waterFall",
+            content: "色块瀑布",
+            timeStamp: "2025-02-21"
+        },
         {
             routerTo: "/shuffle",
             content: "看洗牌",
