@@ -9,11 +9,8 @@
 </template>
 
 <style lang="scss">
-<<<<<<< HEAD
 
     /** 将返回主页按钮固定在页面左上角 */
-=======
->>>>>>> 700352379e0c7d0fcd3e208246fd6ec8ad522965
     @include b(button) {
         position: fixed;
         left: 20px;
