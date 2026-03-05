@@ -5,14 +5,21 @@ import 洗牌 from '../views/使用loadsh进行洗牌.vue'
 import 色块瀑布 from '../views/色块瀑布.vue'
 import 虚拟dom和diff算法 from '@/views/虚拟dom和diff算法.vue'
 import 第6章_Ref全家桶 from '@/views/第6章_Ref全家桶.vue'
+import 第7章_Reactive全家桶 from '@/views/第7章_Reactive全家桶.vue'
 
 const router = createRouter({
+  // history的意思是路由模式，createWebHistory是HTML5模式，createWebHashHistory是Hash模式
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/charpter6',
       name: '第6章',
       component: 第6章_Ref全家桶,
+    },
+    {
+      path: '/charpter7',
+      name: '第7章',
+      component: 第7章_Reactive全家桶,
     },
     {
       path: '/dom&diff',
