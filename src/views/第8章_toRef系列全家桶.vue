@@ -15,7 +15,7 @@
 
 <script setup lang='ts'>
 
-import { toRef, reactive } from 'vue';
+import { toRef, toRaw, reactive } from 'vue';
 
 const Man1 = { name: '张三', age: 18 }
 const Man2 = reactive({ name: '李四', age: 28 })
@@ -27,6 +27,9 @@ const Man2 = reactive({ name: '李四', age: 28 })
 const toRefMan1 = toRef(Man1, 'name')
 const toRefMan2 = toRef(Man2, 'name')
 
+// toRaw则是将响应式对象转换为普通对象
+const rawMan2 = toRaw(Man2)
+
 const change = () => {
     // Man1.name = '王五'
     // Man2.name = '王五，我被改啦!'
@@ -34,6 +37,8 @@ const change = () => {
     toRefMan2.value = '我被改啦!'
     console.log(Man1)
     console.log(Man2)
+    // 你可以通过toRaw来将响应式对象转换为普通对象
+    console.log(rawMan2)
 }
 </script>
 
