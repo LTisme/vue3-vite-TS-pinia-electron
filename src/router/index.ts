@@ -7,6 +7,7 @@ import 虚拟dom和diff算法 from '@/views/虚拟dom和diff算法.vue'
 import 第6章_Ref全家桶 from '@/views/第6章_Ref全家桶.vue'
 import 第7章_Reactive全家桶 from '@/views/第7章_Reactive全家桶.vue'
 import 第8章_toRef全家桶 from '@/views/第8章_toRef系列全家桶.vue'
+import 第8_1章_响应式源码实现 from '@/views/第8.1章_响应式源码实现.vue'
 
 
 
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/charpter8',
       name: '第8章',
       component: 第8章_toRef全家桶,
+    },
+    {
+      path: '/charpter8.1',
+      name: '第8.1章',
+      component: 第8_1章_响应式源码实现,
     },
     {
       path: '/dom&diff',

@@ -56,6 +56,11 @@
             content: "第8章_toRef全家桶",
             timeStamp: "2026-01-14"
         },
+        {
+            routerTo: "/charpter8.1",
+            content: "第8.1章_响应式源码实现",
+            timeStamp: "2026-01-14"
+        },
     ]
 </script>
 
