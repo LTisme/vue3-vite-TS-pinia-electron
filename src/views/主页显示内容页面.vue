@@ -61,6 +61,11 @@
             content: "第8.1章_响应式源码实现",
             timeStamp: "2026-01-14"
         },
+        {
+            routerTo: "/charpter23",
+            content: "第23章_依赖注入provide和inject应用解析",
+            timeStamp: "2026-03-11"
+        },
     ]
 </script>
 
