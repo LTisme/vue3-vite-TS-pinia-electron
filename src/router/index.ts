@@ -9,6 +9,7 @@ import 第7章_Reactive全家桶 from '@/views/第7章_Reactive全家桶.vue'
 import 第8章_toRef全家桶 from '@/views/第8章_toRef系列全家桶.vue'
 import 第8_1章_响应式源码实现 from '@/views/第8.1章_响应式源码实现.vue'
 import 第23章_依赖注入provide和inject应用解析 from '@/views/第23章_依赖注入provide和inject应用解析.vue'
+import 第24章_兄弟组件传参2 from '@/views/第24章_兄弟组件传参的2种办法.vue'
 
 
 
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/charpter23',
       name: '第23章',
       component: 第23章_依赖注入provide和inject应用解析,
+    },
+    {
+      path: '/charpter24',
+      name: '第24章',
+      component: 第24章_兄弟组件传参2,
     },
     {
       path: '/dom&diff',

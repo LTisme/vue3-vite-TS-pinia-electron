@@ -66,6 +66,11 @@
             content: "第23章_依赖注入provide和inject应用解析",
             timeStamp: "2026-03-11"
         },
+        {
+            routerTo: "/charpter24",
+            content: "第24章_兄弟组件传参的2种办法",
+            timeStamp: "2026-03-11"
+        },
     ]
 </script>
 
